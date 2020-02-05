@@ -1,4 +1,4 @@
-"""SMS URL Configuration
+"""SoireeSms URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from sms import views as SmsViews
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('submit_sms', SmsViews.submit_sms),
-    path('', SmsViews.main_page)
+    path('', SmsViews.main_page),
+    path('submit_sms/', SmsViews.submit_sms),
+    path('submit_image/', SmsViews.submit_image)
 ]
