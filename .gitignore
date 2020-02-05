@@ -1,12 +1,14 @@
+*.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.jpg
 # C extensions
 *.so
 __init__.py
-.migrations/
+migrations/
 # Distribution / packaging
 .Python
 build/
