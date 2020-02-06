@@ -2,9 +2,14 @@ import pprint
 from json import JSONDecodeError
 import hashlib
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.core.files.base import ContentFile
 from django.http.response import HttpResponseServerError, JsonResponse, HttpResponse
 import json
+
+from django.shortcuts import render
+
 from .models import SMSModel, Photo
 # Create your views here.
 
@@ -17,10 +22,12 @@ def submit_sms(request):
     if request.method == 'POST':
         try:
             print(request.body)
-            data = json.loads(request.body.decode('utf-8'))
+            data_string = request.body.decode('utf-8')
+            data = json.loads(data_string)
             sms = SMSModel.objects.create(number = data['number'],
                                           content = data['sms'])
             sms.save()
+            new_sms_notification(data_string)
         except JSONDecodeError:
             return JsonResponse({'status':'ko'})
         return JsonResponse({'status':'ok'})
@@ -51,9 +58,19 @@ def submit_image(request):
     else:
         return HttpResponseServerError("Error : post request only!")
 
+def new_sms_notification(sms):
+    channel_layer = get_channel_layer()
+    print(channel_layer)
+    async_to_sync(channel_layer.group_send)(
+        'client',
+        {
+            'type': 'websocket.send',
+            'text':sms
+        }
+    )
 
 def main_page(request):
-    return HttpResponse("Page principale")
+    return render(request, 'control_page.html')
 
 
 

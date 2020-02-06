@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>Bibliothèque locale</title>
+    {% load static %}
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+<script>
+    var endpoint = '';
+    var wsStart = 'ws://localhost:8000/feed'
+    var socket = new WebSocket(wsStart);
+    socket.onmessage = function (e) {
+        console.log("message", e)
+    };
+
+    socket.onopen = function (e) {
+        console.log("open", e)
+    };
+
+    socket.onerror = function (e) {
+        console.log("error", e)
+    };
+
+    socket.onclose = function (e) {
+        console.log("close", e)
+    };
+
+</script>
+</body>
+</html>
