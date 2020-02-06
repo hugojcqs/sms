@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.soireesms.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -28,13 +29,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        messages = new ArrayList<>();
+        List<Sms> messagesUnsorted = SmsMethods.getAllSms((Activity) getContext());
 
-
-        messages = SmsMethods.getAllSms((Activity) getContext());
-        //if (messages.get(index).getFolderName() == "inbox") {
-        //} TODO
+        for(int i=0;i<messagesUnsorted.size();i++){
+            if (messagesUnsorted.get(i).getFolderName().equals("inbox")) {
+                messages.add(messagesUnsorted.get(i));
+            } // else {continue}
+        }
+        SmsMethods.bubbleSort(messages);
         // TODO SOrting them
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

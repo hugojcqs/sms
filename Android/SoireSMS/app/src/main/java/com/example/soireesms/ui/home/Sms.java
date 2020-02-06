@@ -25,7 +25,7 @@ public class Sms{
     }
     public String getTime(){
         return _time;
-    }
+    } //TimeStamp en millisecondes
     public String getFolderName(){
         return _folderName;
     }

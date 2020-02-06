@@ -8,6 +8,7 @@ import android.net.Uri;
 import com.example.soireesms.ui.home.Sms;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 //adapted from :
@@ -21,7 +22,7 @@ public class SmsMethods{
         ContentResolver cr = context.getContentResolver();
 
         Cursor c = cr.query(message, null, null, null, null);
-        context.startManagingCursor(c);
+        context.startManagingCursor(c); //TODO Replace this method -> Makes the app crash
         int totalSMS = c.getCount();
 
         if (c.moveToFirst()) {
@@ -50,5 +51,29 @@ public class SmsMethods{
         c.close();
 
         return lstSms;
+    }
+
+    public static List<Sms> bubbleSort(List<Sms> arr)
+    {
+        for (int i = 0; i < arr.size(); i++) {
+            for (int j = 0; j < arr.size()-1-i; j++) {
+                if(Integer.parseInt(arr.get(j).getTime()) > Integer.parseInt(arr.get(j+1).getTime())) //TODO crash why ?
+                { //Comparing Epoch time in milliseconds
+                    Sms temp=arr.get(j);
+                    Collections.replaceAll(arr, arr.get(j), arr.get(j+1));
+                    Collections.replaceAll(arr, arr.get(j+1), temp);
+                }
+            }
+            System.out.print("Iteration "+(i+1)+": ");
+        }
+        return arr;
+    }
+
+    public static void printArray(int arr[])
+    {
+        for (int i = 0; i <arr.length; i++) {
+            System.out.print(arr[i]+" ");
+        }
+        System.out.println();
     }
 }
