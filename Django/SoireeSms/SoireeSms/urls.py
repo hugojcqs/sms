@@ -18,7 +18,10 @@ from django.urls import path
 from sms import views as SmsViews
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', SmsViews.main_page),
+    path('', SmsViews.main_page, name='main_page'),
     path('submit_sms/', SmsViews.submit_sms),
-    path('submit_image/', SmsViews.submit_image)
+    path('submit_image/', SmsViews.submit_image),
+    path('login/', SmsViews.login_page, name='login_page'),
+    path('logout/', SmsViews.logout_page, name='logout_page'),
+    path('control_page', SmsViews.control_page, name='control_page')
 ]

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <title>Soirée SMS</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #292654;">
+      <a class="navbar-brand" href="/" style="font-family: mistral; font-size:28px; color:white;">
+          <img src="{% static 'images/ekot.svg' %}" width="45" height="45" class="d-inline-block align-top logo" alt="">
+          E-kot
+      </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+
+
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="btn ml-1 navbutton text-white" href="/logout/">logout <i class="fas fa-sign-out-alt"></i></a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn ml-1 navbutton text-white" href="/login/">sign in <i class="fas fa-sign-in-alt"></i></a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        {% block navbar %}{% endblock %}
+    </nav>
+
+
+    <div class="container mt-3 mb-2">
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+ {% block content %}
+ {% endblock %}
+
+
+</body>
+</html>

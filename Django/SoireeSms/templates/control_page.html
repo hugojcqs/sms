@@ -1,31 +1,26 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <title>Bibliothèque locale</title>
-    {% load static %}
-    <script src="{% static 'script.js' %}"></script>
-</head>
-<body>
-<script>
-    var endpoint = '';
-    var wsStart = 'ws://localhost:8000/feed'
-    var socket = new WebSocket(wsStart);
-    socket.onmessage = function (e) {
-        console.log("message", e)
-    };
+{% extends "main_template.html" %}
+{% load static %}
+{% block head %}
+<script src="{%static '/scripts/control_script.js' %}"></script>
+{% endblock %}
 
-    socket.onopen = function (e) {
-        console.log("open", e)
-    };
+{% block content %}
 
-    socket.onerror = function (e) {
-        console.log("error", e)
-    };
+<div class="list-group" id="histo" style="position: relative; height: 94vh; width: 100%; overflow-y: scroll;">
+    {% for sms in smss reversed %}
+    <a class="list-group-item list-group-item-action flex-column align-items-start text-white history_color" style="background-color:#8b9dc3;" id="{{ histo.id_str }}">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{sms.content}}</h5>
+            {% if not sms.approved %}
+                <div class="btn btn-sm btn-danger history_btn" id="auth{{sms.id}}" onclick="authorize_sms({{ sms.id }})">Authorize</div>
+            {% else %}
+                <div class="btn btn-sm btn-success history_btn disabled">Authorized</div>
+            {% endif%}
+        </div>
+    <p class="mb-1">{{sms.number}}</p>
+    <small>{{sms.date_time}}</small>
+    </a>
 
-    socket.onclose = function (e) {
-        console.log("close", e)
-    };
-
-</script>
-</body>
-</html>
+{% endfor %}
+</div>
+{% endblock %}
