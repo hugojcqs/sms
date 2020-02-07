@@ -57,11 +57,12 @@ public class SmsMethods{
     {
         for (int i = 0; i < arr.size(); i++) {
             for (int j = 0; j < arr.size()-1-i; j++) {
-                if(Integer.parseInt(arr.get(j).getTime()) > Integer.parseInt(arr.get(j+1).getTime())) //TODO crash why ?
+                if(Long.parseLong(arr.get(j).getTime()) < Long.parseLong(arr.get(j+1).getTime())) //TODO crash why ?
                 { //Comparing Epoch time in milliseconds
                     Sms temp=arr.get(j);
-                    Collections.replaceAll(arr, arr.get(j), arr.get(j+1));
-                    Collections.replaceAll(arr, arr.get(j+1), temp);
+                    arr.set(j, arr.get(j+1));
+                    arr.set(j+1, temp);
+
                 }
             }
             System.out.print("Iteration "+(i+1)+": ");

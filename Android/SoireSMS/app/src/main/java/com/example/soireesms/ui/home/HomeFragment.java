@@ -38,7 +38,6 @@ public class HomeFragment extends Fragment {
             } // else {continue}
         }
         SmsMethods.bubbleSort(messages);
-        // TODO SOrting them
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
