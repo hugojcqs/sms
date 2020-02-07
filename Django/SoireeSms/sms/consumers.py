@@ -10,34 +10,31 @@ from .models import *
 
 class MessageControlConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
-        print("connnected", event)
+
         await self.channel_layer.group_add(
             'client',
             self.channel_name
         )
-        await self.send({'type': 'websocket.accept'})
+        self.user = self.scope["user"]
+        if self.ser.is_authenticated:
+            await self.send({'type': 'websocket.accept'})
+        else:
+            await self.send({'type': 'websocket.disconnect'})
 
     async def websocket_send(self, message):
         await self.send(message)
 
     async def websocket_receive(self, event):
-        status = 'ok'
-        id = None
-        sms = None
+
         try:
             received_data = json.loads(event['text'])
             id = received_data['id']
             sms = await self.allow_sms(id)
-        except Exception as e:
-            status = 'ko'
-            print(e)
-        finally:
             await self.channel_layer.group_send('client',
                                   {
                                       'type': 'websocket.send',
                                       'text':json.dumps({'action':'allow', 'id':id})
                                   })
-            print('sent ')
             number = sms.number[:-4] + '****'
             message = sms.content
 
@@ -47,6 +44,8 @@ class MessageControlConsumer(AsyncConsumer):
                                                     'text': json.dumps({'action': 'display', 'number': number,
                                                                         'message': message})
                                                 })
+        except Exception as e:
+            print(e)
 
     async def websocket_disconnect(self, event):
         print("disconnect", event)

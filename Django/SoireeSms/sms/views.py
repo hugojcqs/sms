@@ -6,6 +6,7 @@ import hashlib
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.http.response import HttpResponseServerError, JsonResponse, HttpResponse
 import json
@@ -102,6 +103,7 @@ def logout_page(request):
     return redirect('login_page')
 
 
+@login_required
 def control_page(request):
     print(SMSModel.objects.all())
     smss = SMSModel.objects.all()

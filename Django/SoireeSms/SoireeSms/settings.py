@@ -149,3 +149,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+LOGIN_REDIRECT_URL = 'login_page'
+LOGIN_URL = 'login_page'
+

@@ -15,6 +15,9 @@ class MessageDisplayConsumer(AsyncConsumer):
             self.channel_name
         )
         await self.send({'type': 'websocket.accept'})
+        print("connected")
+        self.user = self.scope["user"]
+        print(self.user.is_authenticated)
 
     async def websocket_send(self, message):
         await self.send(message)
