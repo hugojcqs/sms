@@ -53,28 +53,17 @@ public class SmsMethods{
         return lstSms;
     }
 
-    public static List<Sms> bubbleSort(List<Sms> arr)
+    public static void bubbleSort(List<Sms> arr)
     {
         for (int i = 0; i < arr.size(); i++) {
             for (int j = 0; j < arr.size()-1-i; j++) {
-                if(Long.parseLong(arr.get(j).getTime()) < Long.parseLong(arr.get(j+1).getTime())) //TODO crash why ?
+                if(Long.parseLong(arr.get(j).getTime()) < Long.parseLong(arr.get(j+1).getTime()))
                 { //Comparing Epoch time in milliseconds
                     Sms temp=arr.get(j);
                     arr.set(j, arr.get(j+1));
                     arr.set(j+1, temp);
-
                 }
             }
-            System.out.print("Iteration "+(i+1)+": ");
         }
-        return arr;
-    }
-
-    public static void printArray(int arr[])
-    {
-        for (int i = 0; i <arr.length; i++) {
-            System.out.print(arr[i]+" ");
-        }
-        System.out.println();
     }
 }
