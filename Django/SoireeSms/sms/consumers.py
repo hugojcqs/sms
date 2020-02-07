@@ -23,10 +23,11 @@ class MessageControlConsumer(AsyncConsumer):
     async def websocket_receive(self, event):
         status = 'ok'
         id = None
+        sms = None
         try:
             received_data = json.loads(event['text'])
             id = received_data['id']
-            await self.allow_sms(id)
+            sms = await self.allow_sms(id)
         except Exception as e:
             status = 'ko'
             print(e)
@@ -37,6 +38,15 @@ class MessageControlConsumer(AsyncConsumer):
                                       'text':json.dumps({'action':'allow', 'id':id})
                                   })
             print('sent ')
+            number = sms.number[:-4] + '****'
+            message = sms.content
+
+            await self.channel_layer.group_send('display',
+                                                {
+                                                    'type': 'websocket.send',
+                                                    'text': json.dumps({'action': 'display', 'number': number,
+                                                                        'message': message})
+                                                })
 
     async def websocket_disconnect(self, event):
         print("disconnect", event)
@@ -46,4 +56,4 @@ class MessageControlConsumer(AsyncConsumer):
         sms = SMSModel.objects.get(pk=id)
         sms.approved = True
         sms.save()
-        print('updated')
+        return sms

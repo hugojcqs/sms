@@ -1,5 +1,9 @@
 {% extends "main_template.html" %}
+{% load static %}
 
+{% block head %}
+<script src="{%static '/scripts/display_script.js' %}"></script>
+{% endblock %}
 {% block content %}
-Coucou
+
 {% endblock %}

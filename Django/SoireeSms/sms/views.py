@@ -12,11 +12,11 @@ import json
 from django.contrib import messages
 
 from django.shortcuts import render, redirect
-
+from django.utils.html import strip_tags
 from .forms import LoginForm
 from .models import SMSModel, Photo
 # Create your views here.
-
+import base64
 # TODO : add security (auth ?)
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
@@ -30,8 +30,9 @@ def submit_sms(request):
             data_string = request.body.decode('utf-8')
             data = json.loads(data_string)
             data['action'] = 'new_sms'
+            data['sms'] = strip_tags(data['sms'])
             sms = SMSModel.objects.create(number = data['number'],
-                                          content = data['sms'])
+                                          content = strip_tags(data['sms']))
             sms.save()
             data['id'] = sms.id
             data['date_time'] = datetime.strftime(sms.date_time, '%b %d, %Y, %I:%M %p').replace(' 0', '')
@@ -59,7 +60,20 @@ def write_image(data):
 def submit_image(request):
     if request.method == 'POST':
         try:
-            write_image(request.FILES['media'].read())
+            data = request.FILES['media'].read()
+            write_image(data)
+
+            message = {'action': 'display_image', 'image': base64.b64encode(data).decode('utf8')}
+
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                'display',
+                {
+                    'type': 'websocket.send',
+                    'text': json.dumps(message)
+                }
+            )
+
         except Exception as e:
             print(e)
             return JsonResponse({'status': 'ko'})
@@ -70,7 +84,6 @@ def submit_image(request):
 
 def new_sms_notification(sms):
     channel_layer = get_channel_layer()
-    print('braodcast')
     async_to_sync(channel_layer.group_send)(
         'client',
         {
@@ -97,6 +110,7 @@ def control_page(request):
     if len_smss < max_obj:
         max_obj = len_smss
     return render(request, 'control_page.html', context = {'smss':smss[len_smss-max_obj:len_smss]})
+
 
 def login_page(request):
     login_form = LoginForm(request.POST or None)
