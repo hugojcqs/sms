@@ -29,6 +29,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         messages = new ArrayList<>();
         List<Sms> messagesUnsorted = SmsMethods.getAllSms((Activity) getContext());
 
@@ -38,12 +39,15 @@ public class HomeFragment extends Fragment {
             } // else {continue}
         }
         SmsMethods.bubbleSort(messages);
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+
 
         lView = root.findViewById(R.id.allSMS);
         lAdapter = new ListAdapter(getActivity(), messages);
