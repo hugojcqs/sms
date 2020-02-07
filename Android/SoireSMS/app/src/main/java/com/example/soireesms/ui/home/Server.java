@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+//Thanks stackOverflow
 
 public class Server {
     public static void sendSms(Activity context, Sms sms, String url) {
@@ -30,6 +31,7 @@ public class Server {
             jsonBody.put("number", sms.getAddress());
             jsonBody.put("date_time", sms.getTime());
             final String requestBody = jsonBody.toString();
+            Log.d("VOLLEY", requestBody);
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override

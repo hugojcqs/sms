@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.soireesms.MainActivity;
 import com.example.soireesms.R;
 
 import java.util.ArrayList;
@@ -48,10 +50,21 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-
         lView = root.findViewById(R.id.allSMS);
         lAdapter = new ListAdapter(getActivity(), messages);
         lView.setAdapter(lAdapter);
+
+        lView.setFocusable(false);
+        lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Sms smsSelected = messages.get(position);
+                MainActivity main = (MainActivity) getActivity();
+                Log.d(TAG, "Message selected : " + smsSelected.toString());
+
+                Server.sendSms((Activity) getContext(), smsSelected, main.url);
+            }
+        });
 
         return root;
     }

@@ -55,10 +55,16 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "verifyPermission : checking permissions");
 
         int permissionSMS = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_SMS);
+        int permissionINTERNET = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET);
 
         if (permissionSMS != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.READ_SMS},
+                    1);
+        }
+        if (permissionINTERNET != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.INTERNET},
                     1);
         }
     }

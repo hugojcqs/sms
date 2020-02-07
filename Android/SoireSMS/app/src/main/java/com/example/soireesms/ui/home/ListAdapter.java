@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import com.example.soireesms.R;
 
@@ -58,8 +59,8 @@ public class ListAdapter extends BaseAdapter {
             viewHolder.telephoneNumber = convertView.findViewById(R.id.telephoneNumberID);
 
             result=convertView;
-
             convertView.setTag(viewHolder);
+
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
             result=convertView;
