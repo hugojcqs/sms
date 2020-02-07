@@ -23,12 +23,15 @@ public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
     private TextInputEditText mUrl;
+    private MainActivity main ;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        main = (MainActivity) getActivity();
 
         mUrl = root.findViewById(R.id.domainLayout);
         mUrl.addTextChangedListener(new TextWatcher() {
@@ -41,11 +44,12 @@ public class DashboardFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 Log.d("DOMAIN UPDATE", s.toString());
-                MainActivity main = (MainActivity) getActivity();
-                assert main != null;
                 main.url = s.toString();
             }
         });
+        if (null != main.url && main.url.length() != 0){
+            mUrl.setText(main.url);
+        }
 
         return root;
     }

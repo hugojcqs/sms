@@ -24,11 +24,4 @@
         android:text="@string/telephone_number"
         android:textSize="14sp" />
 
-    <Button
-        android:id="@+id/resendBtn"
-        android:layout_width="53dp"
-        android:layout_height="64dp"
-        android:layout_toEndOf="@+id/messageID" />
-
-
 </RelativeLayout>
