@@ -16,7 +16,7 @@ class MessageControlConsumer(AsyncConsumer):
             self.channel_name
         )
         self.user = self.scope["user"]
-        if self.ser.is_authenticated:
+        if self.user.is_authenticated:
             await self.send({'type': 'websocket.accept'})
         else:
             await self.send({'type': 'websocket.disconnect'})

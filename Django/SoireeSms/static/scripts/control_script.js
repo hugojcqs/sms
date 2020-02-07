@@ -8,6 +8,7 @@ window.onload = function() {
         if(data['action'] === 'allow')
         {
             btn = $("#auth"+data['id']);
+            btn.prop("onclick", null).off("click");
             btn.removeClass('btn-danger');
             btn.addClass("btn-success disabled");
             btn.text("Authorized");
