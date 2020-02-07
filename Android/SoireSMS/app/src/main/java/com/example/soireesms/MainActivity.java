@@ -2,6 +2,7 @@ package com.example.soireesms;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -34,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //adding the receiver to the manifest
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+        filter.setPriority(999);
+        this.registerReceiver(new SmsListener(this), filter);
 
         verifyPermission();
 
@@ -56,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         int permissionSMS = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_SMS);
         int permissionINTERNET = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET);
+        int permissionRECEIVE_SMS = ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS);
 
         if (permissionSMS != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -65,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
         if (permissionINTERNET != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.INTERNET},
+                    1);
+        }
+        if (permissionRECEIVE_SMS != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.RECEIVE_SMS},
                     1);
         }
     }
