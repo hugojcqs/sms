@@ -77,11 +77,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateView(Sms sms){
         assert getFragmentManager() != null;
-        public abstract List<Fragment> getFra getFragments();
         Log.i(TAG, "Found fragment: " );
 
-        //HomeFragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
-        //fragment.listUpdate(sms);
+        //Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+
+        try{
+            for (Fragment fragment : fragments){
+                ((HomeFragment)fragment).listUpdate(sms);
+            }
+        } catch (Exception e){
+            Log.d(TAG, e.toString());
+        }
     }
 
 }

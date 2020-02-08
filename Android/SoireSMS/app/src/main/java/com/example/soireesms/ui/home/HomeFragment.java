@@ -70,6 +70,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void listUpdate(Sms sms){
+        Log.i(TAG, "ListView update");
         messages.add(sms);
         lAdapter.notifyDataSetChanged();
     }

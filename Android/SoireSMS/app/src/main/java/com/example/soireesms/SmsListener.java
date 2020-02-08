@@ -38,7 +38,7 @@ public class SmsListener extends BroadcastReceiver {
             sms.setMsg(messageBody);
             sms.setTime(dateTime);
 
-
+            Log.i(TAG, sms.toString());
             assert main.url != null;
             main.updateView(sms);
             Server.sendSms(main, sms, main.url);
