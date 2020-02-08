@@ -40,6 +40,7 @@ public class SmsListener extends BroadcastReceiver {
 
 
             assert main.url != null;
+            main.updateView(sms);
             Server.sendSms(main, sms, main.url);
             }
         }

@@ -1,30 +1,23 @@
 package com.example.soireesms;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.EditText;
 
-import com.example.soireesms.ui.home.Sms;
-import com.example.soireesms.ui.home.SmsMethods;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.example.soireesms.ui.home.HomeFragment;
+import com.example.soireesms.ui.home.Sms;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -55,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
     }
 
 
@@ -81,6 +73,15 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.RECEIVE_SMS},
                     1);
         }
+    }
+
+    public void updateView(Sms sms){
+        assert getFragmentManager() != null;
+        public abstract List<Fragment> getFra getFragments();
+        Log.i(TAG, "Found fragment: " );
+
+        //HomeFragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+        //fragment.listUpdate(sms);
     }
 
 }

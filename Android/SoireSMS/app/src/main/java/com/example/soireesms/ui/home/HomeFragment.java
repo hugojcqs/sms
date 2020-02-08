@@ -68,5 +68,10 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
+    public void listUpdate(Sms sms){
+        messages.add(sms);
+        lAdapter.notifyDataSetChanged();
+    }
 }
 
