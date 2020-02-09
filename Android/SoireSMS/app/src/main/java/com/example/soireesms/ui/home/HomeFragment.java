@@ -69,9 +69,10 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    //TODO Bug : Why don't we see last received SMS ? Check XML layout may be
     public void listUpdate(Sms sms){
         Log.i(TAG, "ListView update");
-        messages.add(sms);
+        messages.add(0, sms);
         lAdapter.notifyDataSetChanged();
     }
 }

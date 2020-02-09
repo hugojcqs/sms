@@ -76,18 +76,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateView(Sms sms){
-        assert getFragmentManager() != null;
-        Log.i(TAG, "Found fragment: " );
+        List<Fragment> navHostFragments = getSupportFragmentManager().getFragments();
 
-        //Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-
-        try{
-            for (Fragment fragment : fragments){
-                ((HomeFragment)fragment).listUpdate(sms);
+        for (Fragment navHostFragment : navHostFragments){
+            Log.d(TAG, navHostFragment.toString());
+            try{
+                ((HomeFragment)navHostFragment.getChildFragmentManager().getFragments().get(0)).listUpdate(sms);
+                Log.i(TAG, "Method found in fragment object" );
+            } catch (Exception e){
+                Log.e(TAG, e.toString());
             }
-        } catch (Exception e){
-            Log.d(TAG, e.toString());
         }
     }
 
