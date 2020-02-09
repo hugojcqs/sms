@@ -5,17 +5,18 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.soireesms.ui.home.HomeFragment;
+import com.example.soireesms.ui.home.Server;
 import com.example.soireesms.ui.home.Sms;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -37,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
         this.registerReceiver(new SmsListener(this), filter);
 
         verifyPermission();
+        if (!domainOk()){
+            CharSequence text = getString(R.string.domainError);
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+            toast.show();
+        }
 
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -75,6 +83,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public boolean domainOk(){
+        return !(null == this.url || this.url.isEmpty());
+    }
+
+    public void sendSmsInformation(Sms sms){
+        //Send an sms to the server specified and a toast indicating wether or not something went wrong appear
+        CharSequence text;
+        if (!domainOk()){
+            text = getString(R.string.domainError);
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+            toast.show();
+            return;
+        }
+        try {
+            Server.sendSms(this, sms, this.url);
+            text = getString(R.string.messageSent);
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+            toast.show();
+        } catch (Exception e){
+            Log.e(TAG, e.toString());
+            text = getString(R.string.sendingError);
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+            toast.show();
+        }
+    }
+
+
     public void updateView(Sms sms){
         List<Fragment> navHostFragments = getSupportFragmentManager().getFragments();
 
@@ -88,5 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 }

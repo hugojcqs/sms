@@ -63,7 +63,9 @@ public class HomeFragment extends Fragment {
                 MainActivity main = (MainActivity) getActivity();
                 Log.d(TAG, "Message selected : " + smsSelected.toString());
 
-                Server.sendSms((Activity) getContext(), smsSelected, main.url);
+                assert main != null;
+                main.sendSmsInformation(smsSelected);
+
             }
         });
 

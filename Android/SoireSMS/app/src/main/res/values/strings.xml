@@ -7,4 +7,7 @@
     <string name="save">Save</string>
     <string name="telephone_number">Telephone number</string>
     <string name="message">Message</string>
+    <string name="domainError">Verify the domain specified!</string>
+    <string name="sendingError">Error while sending the message to the server</string>
+    <string name="messageSent">Message was correctly sent to the server</string>
 </resources>

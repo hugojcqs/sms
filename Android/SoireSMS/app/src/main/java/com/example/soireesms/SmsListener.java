@@ -41,7 +41,7 @@ public class SmsListener extends BroadcastReceiver {
             Log.i(TAG, sms.toString());
             assert main.url != null;
             main.updateView(sms);
-            Server.sendSms(main, sms, main.url);
+            main.sendSmsInformation(sms);
             }
         }
     }
