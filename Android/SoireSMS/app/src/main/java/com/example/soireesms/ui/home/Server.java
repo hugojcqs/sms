@@ -37,7 +37,6 @@ public class Server {
                 @Override
                 public void onResponse(String response) {
                     Log.i("VOLLEY", response);
-                    //TODO Update screen
                 }
             }, new Response.ErrorListener() {
                 @Override

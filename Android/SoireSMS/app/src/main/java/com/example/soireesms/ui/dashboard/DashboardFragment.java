@@ -1,6 +1,8 @@
 package com.example.soireesms.ui.dashboard;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -45,6 +47,9 @@ public class DashboardFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 Log.d("DOMAIN UPDATE", s.toString());
                 main.url = s.toString();
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+                editor.putString("url", s.toString());
+                editor.apply();
             }
         });
         if (null != main.url && main.url.length() != 0){

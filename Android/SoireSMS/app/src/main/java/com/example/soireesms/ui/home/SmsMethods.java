@@ -15,43 +15,36 @@ import java.util.List;
 //https://stackoverflow.com/questions/848728/how-can-i-read-sms-messages-from-the-device-programmatically-in-android
 
 public class SmsMethods{
-    public static List<Sms> getAllSms(Activity context) {
-        List<Sms> lstSms = new ArrayList<>();
-        Sms objSms = new Sms();
-        Uri message = Uri.parse("content://sms/");
-        ContentResolver cr = context.getContentResolver();
+    public static List<Sms> getAllSms(Activity context){
+        //Gets all sms from the phone
+        //Returns List<Sms> of all sms, all having them information complete (see the class)
+        Sms sms;
+        List<Sms> listSms = new ArrayList<>();
+        Uri uri = Uri.parse("content://sms/inbox");
+        Cursor cur = context.getContentResolver().query(uri, null, null, null, null);
 
-        Cursor c = cr.query(message, null, null, null, null);
-        context.startManagingCursor(c); //TODO Replace this method -> Makes the app crash
-        int totalSMS = c.getCount();
-
-        if (c.moveToFirst()) {
-            for (int i = 0; i < totalSMS; i++) {
-
-                objSms = new Sms();
-                objSms.setId(c.getString(c.getColumnIndexOrThrow("_id")));
-                objSms.setAddress(c.getString(c
-                        .getColumnIndexOrThrow("address")));
-                objSms.setMsg(c.getString(c.getColumnIndexOrThrow("body")));
-                objSms.setReadState(c.getString(c.getColumnIndex("read")));
-                objSms.setTime(c.getString(c.getColumnIndexOrThrow("date")));
-                if (c.getString(c.getColumnIndexOrThrow("type")).contains("1")) {
-                    objSms.setFolderName("inbox");
-                } else {
-                    objSms.setFolderName("sent");
-                }
-
-                lstSms.add(objSms);
-                c.moveToNext();
+        while (cur != null && cur.moveToNext()) {
+            sms = new Sms();
+            sms.setId(cur.getString(cur.getColumnIndexOrThrow("_id")));
+            sms.setAddress(cur.getString(cur.getColumnIndex("address")));
+            sms.setMsg(cur.getString(cur.getColumnIndexOrThrow("body")));
+            sms.setReadState(cur.getString(cur.getColumnIndex("read")));
+            sms.setTime(cur.getString(cur.getColumnIndexOrThrow("date")));
+            if (cur.getString(cur.getColumnIndexOrThrow("type")).contains("1")) {
+                sms.setFolderName("inbox");
+            } else {
+                sms.setFolderName("sent");
             }
-        }
-        // else {
-        // throw new RuntimeException("You have no SMS");
-        // }
-        c.close();
 
-        return lstSms;
+            listSms.add(sms);
+        }
+
+        if (cur != null) {
+            cur.close();
+        }
+        return listSms;
     }
+
 
     public static void bubbleSort(List<Sms> arr)
     {
