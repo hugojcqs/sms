@@ -19,6 +19,7 @@ import com.example.soireesms.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
     private ListView lView;
@@ -33,7 +34,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         messages = new ArrayList<>();
-        List<Sms> messagesUnsorted = SmsMethods.getAllSms((Activity) getContext());
+        List<Sms> messagesUnsorted = SmsMethods.getAllSms((Activity) Objects.requireNonNull(getContext()));
 
         for(int i=0;i<messagesUnsorted.size();i++){
             if (messagesUnsorted.get(i).getFolderName().equals("inbox")) {
@@ -62,11 +63,19 @@ public class HomeFragment extends Fragment {
                 MainActivity main = (MainActivity) getActivity();
                 Log.d(TAG, "Message selected : " + smsSelected.toString());
 
-                Server.sendSms((Activity) getContext(), smsSelected, main.url);
+                assert main != null;
+                main.sendSmsInformation(smsSelected);
+
             }
         });
 
         return root;
+    }
+
+    public void listUpdate(Sms sms){
+        Log.i(TAG, "ListView update");
+        messages.add(0, sms);
+        lAdapter.notifyDataSetChanged();
     }
 }
 

@@ -3,6 +3,12 @@ package com.example.soireesms.ui.home;
 //adapted from :
 //https://stackoverflow.com/questions/848728/how-can-i-read-sms-messages-from-the-device-programmatically-in-android
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.provider.Telephony;
+import android.telephony.SmsMessage;
+
 public class Sms{
     private String _id;
     private String _address;
@@ -50,6 +56,8 @@ public class Sms{
         _folderName = folderName;
     }
 }
+
+
 
 
 
