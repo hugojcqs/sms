@@ -1,6 +1,9 @@
 var socket;
 window.onload = function() {
-    var wsStart = 'ws://localhost:8000/display';
+
+    let hostname = window.location.hostname;
+
+    var wsStart = 'ws://' + hostname + '/display';
     socket = new WebSocket(wsStart);
 
     socket.onmessage = function (e) {

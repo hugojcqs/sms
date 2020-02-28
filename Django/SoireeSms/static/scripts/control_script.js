@@ -1,6 +1,8 @@
 var socket;
 window.onload = function() {
-    var wsStart = 'ws://localhost:8000/feed';
+
+    let hostname = window.location.hostname;
+    var wsStart = 'ws://' + hostname + '/feed';
     socket = new WebSocket(wsStart);
 
     socket.onmessage = function (e) {
