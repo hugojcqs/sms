@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  dapne:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command:  docker/entrypoint.sh
+    networks:
+      - app_net
+
+  workerserver:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: /app/entrypoint-worker.sh
+    networks:
+      - app_net
+
+  redis:
+      image: redis:alpine
+      networks:
+        - app_net
+
+networks:
+  app_net:
+    driver: bridge
